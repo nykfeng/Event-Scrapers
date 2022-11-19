@@ -14,17 +14,40 @@ async function main() {
   // page.evaluate is used to interact with the page DOM
   // https://stackoverflow.com/questions/52045947/nodejs-puppeteer-how-to-use-page-evaluate
 
-  const data = await page.evaluate(() => {
+  const data = await page.evaluate(async () => {
     const result = [];
 
     document.querySelector("button.abtn-ExhibitorList").click();
     const tableData = document.querySelectorAll(".listTableBody tbody tr");
-    tableData.forEach((td) => {
+    // tableData.forEach((td) => {
+
+    for (const td of tableData) {
+      const companyName = td.querySelector(".exhibitorName").textContent;
+      const booth = td.querySelector(".boothLabel").textContent;
+      td.querySelector(".boothLabel a").click();
+
+      await new Promise((r) => setTimeout(r, 3000));
+
+      //   await page.waitForSelector(".leaflet-popup-content .fpPopupBoothSize");
+      const boothSize = document.querySelector(
+        ".leaflet-popup-content .fpPopupBoothSize"
+      ).textContent;
+
+      if (boothSize !== "") {
+        boothSize = boothSize.includes("Size: ")
+          ? boothSize.replace("Size: ", "")
+          : boothSize;
+      }
+
       result.push({
-        companyName: td.querySelector(".exhibitorName").textContent,
-        booth: td.querySelector(".boothLabel").textContent,
+        companyName,
+        booth,
+        boothSize,
       });
-    });
+    }
+
+    // });
+
     return JSON.stringify(result);
   });
 
