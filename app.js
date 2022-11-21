@@ -63,7 +63,7 @@ async function main() {
 
       let boothSize =
         document.querySelector(".leaflet-popup-content .fpPopupBoothSize")
-          .textContent || "Can't get size";
+          ?.textContent || "";
 
       if (boothSize !== "") {
         boothSize = boothSize.includes("Size: ")
@@ -90,10 +90,10 @@ async function main() {
     return JSON.stringify(result);
   });
 
+  await browser.close();
+
   console.log("Data after scraping");
   console.log(data);
-
-  //   await browser.close();
 }
 
 main();
