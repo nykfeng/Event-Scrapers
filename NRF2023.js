@@ -20,7 +20,7 @@ async function main() {
     document.querySelector('.modal-body li:nth-child(1) a')?.click();
   });
 
-  await page.waitForSelector(".leaflet-zoom-animated");
+  // await page.waitForSelector(".leaflet-zoom-animated");
 
   const numberOfBooth = await page.evaluate(() => {
     const allBoothEls = document.querySelectorAll(
@@ -30,7 +30,10 @@ async function main() {
     return allBoothEls.length;
   });
 
-  await page.waitForSelector(".leaflet-clickable");
+  console.log("numberOfBooth: ");
+  console.log(numberOfBooth);
+
+  await page.waitForSelector(".leaflet-clickable"); 
   //   await page.hover(".leaflet-clickable");
   await page.hover(".leaflet-overlay-pane svg g:nth-child(2)");
   await page.waitForSelector(".leaflet-popup-content");

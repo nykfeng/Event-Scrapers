@@ -5,9 +5,9 @@ const URL_TO_VISIT =
   "https://events.clarionevents.com/IRFSNY2023/Public/EventMap.aspx?shMode=E&ID=79924";
 
 async function main() {
-  const browers = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: false });
 
-  const page = await browers.newPage();
+  const page = await browser.newPage();
 
   await page.goto(URL_TO_VISIT);
 
@@ -32,7 +32,7 @@ async function main() {
       await new Promise((r) => setTimeout(r, 3000));
 
       const iframeEl = document.querySelector(".modal-content iframe")
-        .contentWindow.document;
+        ?.contentWindow.document;
       const contactInfoEl = iframeEl.querySelector(".panel-body");
       let cityName =
         contactInfoEl
@@ -82,7 +82,7 @@ async function main() {
         url,
       });
 
-      if (companyName === "Clean Air Group") break;
+      // if (companyName === "Clean Air Group") break;
     }
 
     // });
